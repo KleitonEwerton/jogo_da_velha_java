@@ -64,14 +64,12 @@ public class JogoDaVelha {
         String jg2 = leituraSimbolo(2, jg1);
         
         while(true){                                                                //Loop caso for nessesário jogar novamente
-            if(!pvpAux(tabuleiro, nomejg1,jg1,nomejg2,jg2)){
-                
-                if(!jogarNovamente())
-                    break;
-                iniciaMatriz(tabuleiro);
-            }else{
+            
+            pvpAux(tabuleiro, nomejg1,jg1,nomejg2,jg2);  
+            if(!jogarNovamente())
                 break;
-            }
+            iniciaMatriz(tabuleiro);    
+            
                 
         }
     
@@ -86,9 +84,8 @@ public class JogoDaVelha {
     * @param nomejg2                                                         Nome do jogador 2
     * @param jg2                                                             Simbolo do jogador 2
     * 
-    * @return                                                                retorna se houve algum vencedor ou não
     */
-    private static boolean pvpAux(String[][] tabuleiro, String nomejg1,String jg1 ,String nomejg2, String jg2){
+    private static void pvpAux(String[][] tabuleiro, String nomejg1,String jg1 ,String nomejg2, String jg2){
        
         int jogadaAtual = 1;                                                    //Aux da jogada atual
         int jogadorAtual = 1;                                                   //Aux do jogador atual
@@ -139,7 +136,6 @@ public class JogoDaVelha {
         printTabuleiro(tabuleiro);
         imprimirVencedor(algumVencedor, nomeAtual, jogadorAtual,true);
         
-        return algumVencedor;
        
    }
     
@@ -157,14 +153,11 @@ public class JogoDaVelha {
         String jg1 = leituraSimbolo(1, "*");
         
         while(true){                                                                //Loop caso for nessesário jogar novamente
-            if(!pvcAux(tabuleiro, nomejg1,jg1)){
-                
-                if(!jogarNovamente())
-                    break;
-                iniciaMatriz(tabuleiro);
-            }else{
+            
+            pvcAux(tabuleiro, nomejg1,jg1);
+            if(!jogarNovamente())
                 break;
-            }      
+            iniciaMatriz(tabuleiro);
         }
     }
     
@@ -175,9 +168,8 @@ public class JogoDaVelha {
     * @param nomejg1                                                         Nome do jogador 1
     * @param jg1                                                             Simbolo do jogador 1
     * 
-    * @return                                                                retorna se houve algum vencedor ou não
     */
-    private static boolean pvcAux(String[][] tabuleiro, String nomejg1,String jg1){
+    private static void pvcAux(String[][] tabuleiro, String nomejg1,String jg1){
        
         int jogadaAtual = 1;                                                    //Aux da jogada atual
         int jogadorAtual = 1;                                                   //Aux do jogador atual
@@ -216,9 +208,7 @@ public class JogoDaVelha {
         }
         printTabuleiro(tabuleiro);
         imprimirVencedor(algumVencedor, nomejg1, jogadorAtual,false);
-        
-        return algumVencedor;
-       
+     
    }
     
     /**
@@ -369,8 +359,9 @@ public class JogoDaVelha {
                         + "inserido nessa linha e coluna\n");           //Apenas um print
             }
         }else
-            System.out.println("\nValor de linha e/ou "
-                    + "coluna invalidos\n");                            //Apenas um print
+            if(imprimirInf)
+                System.out.println("\nValor de linha e/ou "
+                        + "coluna invalidos\n");                         //Apenas um print
             
         
         
