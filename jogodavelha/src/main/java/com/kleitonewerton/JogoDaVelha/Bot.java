@@ -88,6 +88,7 @@ public class Bot {
         if(inserirValor(tabuleiro,2,2, this.simbolo,false))      //Inserir no meio melhor estrategia
             return;
         
+        
         if(jogarSenario(tabuleiro))                                         //Para travar as jogas pelas laterias
             return;
         
@@ -106,6 +107,8 @@ public class Bot {
         
         String bordas = tabuleiro[0][0]+tabuleiro[2][2] + tabuleiro[0][2] + tabuleiro[2][0];
         
+        if(inserirValor(tabuleiro,1,1, getSimbolo(),false))//tenta inserir em um senario  esquerda superior
+            return true;
         
         if(contCaracter(bordas, getSimboloAdv()) == 1 || contCaracter(bordas, getSimboloAdv()) == 2){ //Para senário onde as bosdas estao sendo usadas pelo adversario
             int[][] vetor = {{0,1},{1,0},{2,1},{1,2}};
