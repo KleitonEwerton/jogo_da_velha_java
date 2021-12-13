@@ -103,7 +103,7 @@ public class JogoDaVelha {
 
             if(jogadorAtual == 1){                                              //O que fazer quando o for o jogador 1
 
-                if(inserirValor(tabuleiro, coordenadas[0],coordenadas[1], jg1)){
+                if(inserirValor(tabuleiro, coordenadas[0],coordenadas[1], jg1,true)){
 
                     if(vencedor(tabuleiro,jg1)){
                         algumVencedor = true;                                   //Agora há um vencedor
@@ -119,7 +119,7 @@ public class JogoDaVelha {
             }
             else{                                                               //O que fazer quando for o jogador 2
 
-                if(inserirValor(tabuleiro, coordenadas[0],coordenadas[1], jg2)){
+                if(inserirValor(tabuleiro, coordenadas[0],coordenadas[1], jg2,true)){
 
                     if(vencedor(tabuleiro,jg2)){
                         algumVencedor = true;                                   //Agora há um ganhador
@@ -191,7 +191,7 @@ public class JogoDaVelha {
 
             if(jogadorAtual == 1){                                              //O que fazer quando o for o jogador 1
                 int[] coordenadas = selecionaNumero(jogadorAtual);              //Array linha x coluna
-                if(inserirValor(tabuleiro, coordenadas[0],coordenadas[1], jg1)){
+                if(inserirValor(tabuleiro, coordenadas[0],coordenadas[1], jg1,true)){
 
                     if(vencedor(tabuleiro,jg1)){
                         algumVencedor = true;                                   //Agora há um vencedor
@@ -354,7 +354,7 @@ public class JogoDaVelha {
     * 
     * @return                                                            true para inserção com sucesso, false para falha ao inserir
     */
-    public static boolean inserirValor(String[][] tabuleiro,int linha, int coluna, String valor){
+    public static boolean inserirValor(String[][] tabuleiro,int linha, int coluna, String valor, boolean imprimirInf){
         
         if(validaNumero(linha) && validaNumero(coluna)){                           //Primeiro válida o numero para inserção
             if(tabuleiro[linha-1][coluna-1].equals(" ")){        //Se o loval for vazio a inserção é feita
@@ -364,7 +364,8 @@ public class JogoDaVelha {
                 
             }
             else{
-                System.out.println("\nJa possui uma valor "
+                if(imprimirInf)
+                    System.out.println("\nJa possui uma valor "
                         + "inserido nessa linha e coluna\n");           //Apenas um print
             }
         }else
@@ -412,6 +413,28 @@ public class JogoDaVelha {
         
     }
  
+    public static String[] coletaLinhas(String[][] tabuleiro){
+        
+        String[] horizontal = {"","",""};
+        
+        for(int i = 0; i < 3;i++)
+            for(int j = 0; j <3;j++)
+                horizontal[i] += tabuleiro[i][j];
+        
+        return horizontal;
+    }
+    
+    public static String[] coletaColunas(String[][] tabuleiro){
+        
+        String[] vertical = {"","",""};
+        
+        for(int i = 0; i < 3;i++)
+            for(int j = 0; j <3;j++)
+                vertical[i] += tabuleiro[j][i];
+        
+        return vertical;
+    }
+    
     /**
     * @brief                                                            Função que dado um valor retorna se o jogador venceu
     *
@@ -422,21 +445,19 @@ public class JogoDaVelha {
     private static boolean vencedor(String[][] tabuleiro, String valor){
         
         String valorJunto = valor+valor+valor;                                      //Valor composto pela união de tres valores(facilidade na verificação)
-        String linha1 = tabuleiro[0][0] + tabuleiro[0][1] + tabuleiro[0][2];        //Valor total da linha 1
-        String linha2 = tabuleiro[1][0] + tabuleiro[1][1] + tabuleiro[1][2];        //Valor total da linha 2
-        String linha3 = tabuleiro[2][0] + tabuleiro[2][1] + tabuleiro[2][2];        //Valor total da linha 3
+      
+        String[]linhas = new String[3];
+        String[]colunas = new String[3];
         
-        String coluna1 = tabuleiro[0][0] + tabuleiro[1][0] + tabuleiro[2][0];       //Valor total da coluna 1
-        String coluna2 = tabuleiro[0][1] + tabuleiro[1][1] + tabuleiro[2][1];       //Valor total da coluna 2
-        String coluna3 = tabuleiro[0][2] + tabuleiro[1][2] + tabuleiro[2][2];       //Valor total da coluna 3
+        colunas = coletaColunas(tabuleiro);
+        linhas = coletaLinhas(tabuleiro);
         
         String diagonalP = tabuleiro[0][0] + tabuleiro[1][1] + tabuleiro[2][2];     //Valor total da diagonal principal
         String diagonalS = tabuleiro[0][2] + tabuleiro[1][1] + tabuleiro[2][0];     //Valor total da diagonal secundária
-        
-        return linha1.equals(valorJunto) || linha2.equals(valorJunto)//Verifica possibilidades de vitoria e retorna o resultado
-                || linha3.equals(valorJunto)
-                    || coluna1.equals(valorJunto)|| coluna2.equals(valorJunto)|| coluna3.equals(valorJunto)
-                        || diagonalP.equals(valorJunto) || diagonalS.equals(valorJunto);
+     
+        return linhas[0].equals(valorJunto) || linhas[1].equals(valorJunto)|| linhas[2].equals(valorJunto)           //Verifica vencedor nas linhas
+               || colunas[0].equals(valorJunto)|| colunas[1].equals(valorJunto)|| colunas[2].equals(valorJunto)      //Verifica vencedor nas colunas
+               || diagonalP.equals(valorJunto) || diagonalS.equals(valorJunto);                                             //Verifica vencedor nas diagonais
         
     }
     
